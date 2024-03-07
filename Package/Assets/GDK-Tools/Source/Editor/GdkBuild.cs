@@ -139,7 +139,7 @@ public static class GdkBuild
         // Create two subfolders underneath. One for the Win32 build and another for the MSIXVC package.
         buildWin32OutputFolderPath = buildOutputFolderPath + "\\" + Win32OutputDirectory;
         buildMsixvcOutputFolderPath = buildOutputFolderPath + "\\" + MsixvcOutputDirectory;
-        
+
         Directory.CreateDirectory(buildWin32OutputFolderPath);
         Directory.CreateDirectory(buildMsixvcOutputFolderPath);
 
@@ -358,6 +358,12 @@ public static class GdkBuild
 
         gameConfigXmlDoc.Save(cleanedGameConfigFilePath);
 
+        string win32PluginsPath = Path.Combine(buildWin32OutputFolderPath, $"{PlayerSettings.productName}_Data/Plugins/x86_64");
+        string eosDll = Path.Combine(win32PluginsPath, "EOSSDK-Win64-Shipping.dll");
+        if (File.Exists(eosDll)) File.Delete(eosDll);
+        string steamDll = Path.Combine(win32PluginsPath, "steam_api64.dll");
+        if (File.Exists(steamDll)) File.Delete(steamDll);
+
         return succeeded;
     }
 
@@ -374,7 +380,7 @@ public static class GdkBuild
 
         var doc = XDocument.Load(layoutPath);
         var ignoredNodes = (from node in doc.Descendants()
-                            where node.Name == "FileGroup" && node.Attribute("SourcePath").Value.Contains("Package_BackUpThisFolder_ButDontShipItWithYourGame")
+                            where node.Name == "FileGroup" && node.Attribute("SourcePath").Value.Contains("BackUpThisFolder_ButDontShipItWithYourGame")
                             select node).ToArray();
 
         for (int i = 0; i < ignoredNodes.Length; ++i)
