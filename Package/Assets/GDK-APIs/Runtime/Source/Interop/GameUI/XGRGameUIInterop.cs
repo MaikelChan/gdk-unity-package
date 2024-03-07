@@ -91,6 +91,22 @@ namespace XGamingRuntime.Interop
         [DllImport(ThunkDllName, CallingConvention = CallingConvention.StdCall)]
         internal static extern Int32 XGameUiShowSendGameInviteResult(XAsyncBlockPtr asyncBlock);
 
+        //STDAPI XGameUiShowMultiplayerActivityGameInviteAsync(
+        //    _In_ XAsyncBlock* async,
+        //    _In_ XUserHandle requestingUser
+        //    ) noexcept;
+
+        [DllImport(ThunkDllName, CallingConvention = CallingConvention.StdCall)]
+        internal static extern Int32 XGameUiShowMultiplayerActivityGameInviteAsync(
+            XAsyncBlockPtr asyncBlock,
+            XUserHandle requestingUser);
+
+        //STDAPI XGameUiShowMultiplayerActivityGameInviteResult(
+        //    _In_ XAsyncBlock* async
+        //    ) noexcept;
+        [DllImport(ThunkDllName, CallingConvention = CallingConvention.StdCall)]
+        internal static extern Int32 XGameUiShowMultiplayerActivityGameInviteResult(XAsyncBlockPtr asyncBlock);
+
         //STDAPI XGameUiShowPlayerProfileCardAsync(
         //    _In_ XAsyncBlock* async,
         //    _In_ XUserHandle requestingUser,

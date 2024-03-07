@@ -152,6 +152,8 @@ EXPORTS
 	XGameUiShowMessageDialogResult
 	XGameUiShowSendGameInviteAsync
 	XGameUiShowSendGameInviteResult
+	XGameUiShowMultiplayerActivityGameInviteAsync
+	XGameUiShowMultiplayerActivityGameInviteResult
 	XGameUiShowPlayerProfileCardAsync
 	XGameUiShowPlayerProfileCardResult
 	XGameUiShowAchievementsAsync

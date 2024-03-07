@@ -8,6 +8,7 @@ namespace XGamingRuntime
     public delegate void XGameUiShowErrorDialogCompleted(Int32 hresult);
     public delegate void XGameUiShowTextEntryAsyncCompleted(Int32 hresult, string resultText);
     public delegate void XGameUiShowSendGameInviteAsyncCompleted(Int32 hresult);
+    public delegate void XGameUiShowMultiplayerActivityGameInviteAsyncCompleted(Int32 hresult);
     public delegate void XGameUiShowWebAuthenticationAsyncCompleted(Int32 hresult, XGameUiWebAuthenticationResultData result);
     public delegate void XGameUiShowPlayerProfileCardAsyncCompleted(Int32 hresult);
     public delegate void XGameUiShowPlayerPickerAsyncCompleted(Int32 hresult, UInt64[] resultPlayers);
@@ -171,6 +172,33 @@ namespace XGamingRuntime
                     Converters.StringToNullTerminatedUTF8ByteArray(sessionId),
                     Converters.StringToNullTerminatedUTF8ByteArray(invitationText),
                     Converters.StringToNullTerminatedUTF8ByteArray(customActivationContext));
+
+            if (HR.FAILED(hr))
+            {
+                AsyncHelpers.CleanupAsyncBlock(asyncBlock);
+                completionRoutine(hr);
+            }
+        }
+
+        public static void XGameUiShowMultiplayerActivityGameInviteAsync(
+            XUserHandle requestingUser,
+            XGameUiShowMultiplayerActivityGameInviteAsyncCompleted completionRoutine)
+        {
+            if (requestingUser == null)
+            {
+                completionRoutine(HR.E_INVALIDARG);
+                return;
+            }
+
+            XAsyncBlockPtr asyncBlock = AsyncHelpers.WrapAsyncBlock(defaultQueue.handle, (XAsyncBlockPtr block) =>
+            {
+                Int32 result = XGRInterop.XGameUiShowMultiplayerActivityGameInviteResult(block);
+                completionRoutine(result);
+            });
+
+            Int32 hr = XGRInterop.XGameUiShowMultiplayerActivityGameInviteAsync(
+                    asyncBlock,
+                    requestingUser.InteropHandle);
 
             if (HR.FAILED(hr))
             {
